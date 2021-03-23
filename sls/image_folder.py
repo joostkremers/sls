@@ -4,6 +4,7 @@ import base64
 
 from appdirs import AppDirs
 from PIL import Image as PILImage
+from PIL.ImageOps import exif_transpose
 
 
 class ImageFolder:
@@ -149,8 +150,11 @@ class ImageFolder:
                 if not os.path.exists(thumbnail_dir):
                     os.makedirs(thumbnail_dir)
 
-                image.thumbnail((500, 500))
-                image.save(thumbnail_path)
+                # Transpose the image, because `thumbnail()` doesn't retain
+                # exif-data and thus removes the "Orientation".
+                transposed_image = exif_transpose(image)
+                transposed_image.thumbnail((500, 500))
+                transposed_image.save(thumbnail_path)
         except OSError:
             thumbnail_path = "../Images/missing_image.png"
 
