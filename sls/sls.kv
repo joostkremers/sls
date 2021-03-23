@@ -18,11 +18,13 @@
             pos: self.pos
             radius: [dp(5),0]
     path: ''
-    text: self.path or '«Library»'
+    main: False
+    text: self.path
     size_hint_y: None
+    font_size: '30sp' if self.main==True else '15sp'
     height: self.font_size + dp(10)
     text_size: self.size
-    halign: 'left'
+    halign: 'center' if self.main==True else 'left'
     valign: 'middle'
     padding: dp(10), dp(5)
     color: 0,0,0,1

@@ -5,7 +5,7 @@ from kivy.app import App
 
 from kivy.uix.boxlayout import BoxLayout
 
-from kivy.properties import ObjectProperty, ListProperty
+from kivy.properties import ObjectProperty
 
 from sls.image_folder import ImageFolder
 
@@ -41,6 +41,14 @@ class SLSView(BoxLayout):
         # `os.path.join`. With '.', this leads to paths like "./subdir", which
         # subsequently cannot be found in `self.folder.contents` when
         # `add_section` creates sections for the subdir.
+
+        # An empty `directory` argument also means that no title label is added,
+        # which is fine, because we want to add a special one here:
+
+        header = {"widget": "SLSFolderLabel", "path": "Library", "main": True}
+
+        self.view.data.append(header)
+
         self.add_folder("", *self.folder.contents["."])
 
         # root.ids.app_title.text = self.folder.root
@@ -59,8 +67,10 @@ class SLSView(BoxLayout):
 
         """
 
-        if files:
+        if directory:
             self.view.data.append(self.create_label(directory))
+
+        if files:
             rows = self.chunk(files, 3)
             for row in rows:
                 self.view.data.append(
@@ -76,7 +86,7 @@ class SLSView(BoxLayout):
 
     def create_label(self, path: str):
         pretty_path = path.replace(os.path.sep, " › ")
-        return {"widget": "SLSFolderLabel", "path": pretty_path}
+        return {"widget": "SLSFolderLabel", "path": pretty_path, "main": False}
 
     def create_image_row(self, images: List[str]):
         thumbnails = [self.folder.create_thumbnail(file) for file in images]
