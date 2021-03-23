@@ -17,12 +17,15 @@
             size: self.size
             pos: self.pos
             radius: [dp(5),0]
-    path: ''
     main: False
-    text: self.path
-    size_hint_y: None
-    font_size: '30sp' if self.main==True else '15sp'
-    height: self.font_size + dp(10)
+    font_size: '20sp' if self.main==True else '15sp'
+    # Changing the height here doesn't work, for some reason:
+    #
+    # height: self.font_size + dp(30) if self.main==True else self.font_size + dp(10)
+    #
+    # If I set the widget's height in the data attribute (see
+    # SLSView.create_label()), it does work, though.
+    # height: self.font_size + dp(10)
     text_size: self.size
     halign: 'center' if self.main==True else 'left'
     valign: 'middle'

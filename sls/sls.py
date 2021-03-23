@@ -7,6 +7,8 @@ from kivy.uix.boxlayout import BoxLayout
 
 from kivy.properties import ObjectProperty
 
+from kivy.metrics import dp
+
 from sls.image_folder import ImageFolder
 
 
@@ -32,6 +34,10 @@ class SLSView(BoxLayout):
         for i in range(0, len(lst), chunk_size):
             yield lst[i : i + chunk_size]
 
+    @staticmethod
+    def prettify_path(path: str) -> str:
+        return path.replace(os.path.sep, " › ")
+
     def __init__(self, **kwargs):
         super(SLSView, self).__init__(**kwargs)
 
@@ -45,9 +51,15 @@ class SLSView(BoxLayout):
         # An empty `directory` argument also means that no title label is added,
         # which is fine, because we want to add a special one here:
 
-        header = {"widget": "SLSFolderLabel", "path": "Library", "main": True}
-
-        self.view.data.append(header)
+        self.view.data.append(
+            {
+                "widget": "SLSFolderLabel",
+                "text": self.prettify_path(
+                    os.path.relpath(self.folder.root, os.path.expanduser("~"))
+                ),
+                "main": True,
+            }
+        )
 
         self.add_folder("", *self.folder.contents["."])
 
@@ -85,8 +97,12 @@ class SLSView(BoxLayout):
             self.view.data.append(self.create_folder(subdir_path))
 
     def create_label(self, path: str):
-        pretty_path = path.replace(os.path.sep, " › ")
-        return {"widget": "SLSFolderLabel", "path": pretty_path, "main": False}
+        return {
+            "widget": "SLSFolderLabel",
+            "text": self.prettify_path(path),
+            "main": False,
+            "height": dp(20),
+        }
 
     def create_image_row(self, images: List[str]):
         thumbnails = [self.folder.create_thumbnail(file) for file in images]
