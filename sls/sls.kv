@@ -1,0 +1,107 @@
+# RoundedButton from https://stackoverflow.com/questions/19005182/rounding-button-corners-in-kivy
+<RoundedButton@Button>:
+    # background_color: 0,0,0,0  # the last zero is the critical on, make invisible
+    canvas.before:
+        Color:
+            rgba: (.4,.4,.4,1) if self.state=='normal' else (0,.7,.7,1)  # visual feedback of press
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [dp(5),0]
+
+<SLSFolderLabel@Label>:
+    canvas.before:
+        Color:
+            rgba: 0,0,0,0.03
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [dp(5),0]
+    path: ''
+    text: self.path or '«Library»'
+    size_hint_y: None
+    height: self.font_size + dp(10)
+    text_size: self.size
+    halign: 'left'
+    valign: 'middle'
+    padding: dp(10), dp(5)
+    color: 0,0,0,1
+
+<SLSImage@Image>:
+    size: self.texture_size
+    pos: self.pos
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        BorderImage:
+            source: '../Images/shadow32.png'
+            border: (dp(36),dp(36),dp(36),dp(36))
+            size: (self.width+dp(72), self.height+dp(72))
+            pos: (self.x-dp(36), self.y-dp(36))
+
+<SLSImageRowM@BoxLayout>:
+    height: dp(260)
+    orientation: 'horizontal'
+    images: ['','','']
+    padding: [dp(5),0]
+    spacing: dp(50)
+    SLSImage:
+        source: root.images[0] or '../Images/missing_image.png'
+    SLSImage:
+        source: root.images[1] or '../Images/missing_image.png'
+    SLSImage:
+        source: root.images[2] or '../Images/missing_image.png'
+
+<SLSFolder@Image>:
+    padding: (dp(20),0,0,0)
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        BorderImage:
+            # https://openclipart.org/detail/276955/blank-blue-folder-without-solid-lines
+            source: '../Images/folder.png'
+            border: (dp(36),dp(36),dp(36),dp(36))
+            size: (self.width+dp(72), self.height+dp(72))
+            # Position the BorderImage slightly higher for better visual effect.
+            pos: (self.x-dp(36), self.y-dp(20))
+
+<MenuBar@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: dp(50)
+    padding: dp(10)
+    spacing: dp(10)
+    RoundedButton:
+        text: 'Open'
+        size_hint_x: 0.1
+    Label:
+        text: 'SLS'
+        bold: True
+        size_hint_x: 0.8
+        color: 0,0,0,1
+    RoundedButton:
+        text: 'Quit'
+        size_hint_x: 0.1
+        on_release: app.stop()
+
+<SLSView>:
+    orientation: 'vertical'
+    padding: dp(10)
+    spacing: dp(10)
+    view: view
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Rectangle:
+            size: self.size
+    MenuBar:
+    RecycleView:
+        id: view
+        key_viewclass: 'widget'
+        RecycleBoxLayout:
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+            padding: dp(10)
+            spacing: dp(50)
