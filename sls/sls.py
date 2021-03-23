@@ -4,11 +4,27 @@ from typing import List
 from kivy.app import App
 
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.image import Image
+
+from kivy.properties import StringProperty
 
 from sls.image_folder import ImageFolder
-from sls.image import SLSImage
-from sls.folder import SLSFolder
-from sls.section import SLSSection
+
+
+class SLSImage(Image):
+    def __init__(self, path, **kwargs):
+        super(SLSImage, self).__init__(**kwargs)
+        self.source = path
+
+
+class SLSFolder(Image):
+    def __init__(self, path, **kwargs):
+        super(SLSFolder, self).__init__(**kwargs)
+        self.source = path
+
+
+class SLSSection(BoxLayout):
+    path = StringProperty("New section")
 
 
 class SLSView(BoxLayout):
