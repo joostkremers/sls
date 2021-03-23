@@ -5,38 +5,24 @@ from kivy.app import App
 
 from kivy.uix.boxlayout import BoxLayout
 
-from kivy.properties import ObjectProperty
-
-from kivy.metrics import dp
-
 from sls.image_folder import ImageFolder
+from sls.image import SLSImage
+from sls.folder import SLSFolder
+from sls.section import SLSSection
 
 
 class SLSView(BoxLayout):
-    """The main window of the program.
+    """Widget that holds the images being displayed.
 
-    The SLSView contains a MenuBar and a RecycleView that holds the actual
-    images..
+    The SLSView widget contains any number of SLSSection widgets, which hold the
+    actual images.
 
     Attributes
     ----------
     folder : ImageFolder
         The directory for which images are displayed.
-    view : RecycleView
-        The RecycleView instance holding the images.
 
     """
-
-    view = ObjectProperty()
-
-    @staticmethod
-    def chunk(lst: List, chunk_size: int):
-        for i in range(0, len(lst), chunk_size):
-            yield lst[i : i + chunk_size]
-
-    @staticmethod
-    def prettify_path(path: str) -> str:
-        return path.replace(os.path.sep, " › ")
 
     def __init__(self, **kwargs):
         super(SLSView, self).__init__(**kwargs)
@@ -47,26 +33,15 @@ class SLSView(BoxLayout):
         # `os.path.join`. With '.', this leads to paths like "./subdir", which
         # subsequently cannot be found in `self.folder.contents` when
         # `add_section` creates sections for the subdir.
-
-        # An empty `directory` argument also means that no title label is added,
-        # which is fine, because we want to add a special one here:
-
-        self.view.data.append(
-            {
-                "widget": "SLSFolderLabel",
-                "text": self.prettify_path(
-                    os.path.relpath(self.folder.root, os.path.expanduser("~"))
-                ),
-                "main": True,
-            }
-        )
-
-        self.add_folder("", *self.folder.contents["."])
+        self.add_section("", *self.folder.contents["."])
 
         # root.ids.app_title.text = self.folder.root
 
-    def add_folder(self, directory: str, subdirs: List[str], files: List[str]):
-        """Add the contents of a directory to the SLSView.
+    def add_section(self, directory: str, subdirs: List[str], files: List[str]):
+        """Add one or more SLSSections to the SLSView.
+
+        If `files` is not empty, a section is added for it. If `subdirs` is not
+        empty, a section is added for each directory in `subdirs`.
 
         Parameters
         ----------
@@ -79,44 +54,36 @@ class SLSView(BoxLayout):
 
         """
 
-        if directory:
-            self.view.data.append(self.create_label(directory))
+        root = self.folder.root
 
         if files:
-            rows = self.chunk(files, 3)
-            for row in rows:
-                self.view.data.append(
-                    self.create_image_row(
-                        [os.path.join(directory, file) for file in row]
-                    )
-                )
+            section = SLSSection()
+            section.path = os.path.join(root, directory)
+            for file in files:
+                thumbnail = self.folder.create_thumbnail(os.path.join(directory, file))
+                image = SLSImage(thumbnail)
+                section.ids.grid.add_widget(image)
+
+            self.add_widget(section)
 
         for subdir in subdirs:
-            subdir_path = os.path.join(directory, subdir)
-            self.view.data.append(self.create_label(subdir_path))
-            self.view.data.append(self.create_folder(subdir_path))
+            section = SLSSection()
+            folder_path = os.path.join(root, directory, subdir)
+            section.path = folder_path
+            image_path = self.folder.first_image(os.path.join(directory, subdir))
+            folder = SLSFolder(image_path)
 
-    def create_label(self, path: str):
-        return {
-            "widget": "SLSFolderLabel",
-            "text": self.prettify_path(path),
-            "main": False,
-            "height": dp(20),
-        }
+            section.ids.grid.add_widget(folder)
+            self.add_widget(section)
 
-    def create_image_row(self, images: List[str]):
-        thumbnails = [self.folder.create_thumbnail(file) for file in images]
-        return {"widget": "SLSImageRowM", "images": thumbnails}
 
-    def create_folder(self, path: str):
-        image_path = self.folder.first_image(path)
-        thumbnail = self.folder.create_thumbnail(image_path)
-        return {"widget": "SLSFolder", "source": thumbnail}
+class RootWidget(BoxLayout):
+    pass
 
 
 class SLSApp(App):
     def build(self):
-        return SLSView()
+        return RootWidget()
 
 
 if __name__ == "__main__":

@@ -7,34 +7,14 @@
         RoundedRectangle:
             pos: self.pos
             size: self.size
-            radius: [dp(5),0]
+            radius: [dp(5),]
 
-<SLSFolderLabel@Label>:
-    canvas.before:
-        Color:
-            rgba: 0.92,0.92,0.92,1
-        RoundedRectangle:
-            size: self.size
-            pos: self.pos
-            radius: [dp(5),0]
-    main: False
-    font_size: '20sp' if self.main==True else '15sp'
-    # Changing the height here doesn't work, for some reason:
-    #
-    # height: self.font_size + dp(30) if self.main==True else self.font_size + dp(10)
-    #
-    # If I set the widget's height in the data attribute (see
-    # SLSView.create_label()), it does work, though.
-    # height: self.font_size + dp(10)
-    text_size: self.size
-    halign: 'center' if self.main==True else 'left'
-    valign: 'middle'
-    padding: dp(10), dp(5)
-    color: 0,0,0,1
+<SLSView>:
+    orientation: 'vertical'
+    padding: dp(10)
+    spacing: dp(10)
 
-<SLSImage@Image>:
-    # size: self.texture_size
-    # pos: self.pos
+<SLSImage>:
     canvas.before:
         Color:
             rgba: 1,1,1,1
@@ -44,21 +24,8 @@
             size: (self.width+dp(72), self.height+dp(72))
             pos: (self.x-dp(36), self.y-dp(36))
 
-<SLSImageRowM@BoxLayout>:
-    height: dp(260)
-    orientation: 'horizontal'
-    images: ['','','']
-    padding: [dp(5),0]
-    spacing: dp(50)
-    SLSImage:
-        source: root.images[0] or '../Images/missing_image.png'
-    SLSImage:
-        source: root.images[1] or '../Images/missing_image.png'
-    SLSImage:
-        source: root.images[2] or '../Images/missing_image.png'
-
-<SLSFolder@Image>:
-    padding: (dp(20),0,0,0)
+<SLSFolder>:
+    size_hint_x: 0.3
     canvas.before:
         Color:
             rgba: 1,1,1,1
@@ -69,6 +36,31 @@
             size: (self.width+dp(72), self.height+dp(72))
             # Position the BorderImage slightly higher for better visual effect.
             pos: (self.x-dp(36), self.y-dp(20))
+
+<SLSSection>:
+    orientation: 'vertical'
+    Label:
+        canvas.before:
+            Color:
+                rgba: 0,0,0,0.03
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        text: self.parent.path
+        size_hint_y: None
+        height: self.font_size + dp(10)
+        text_size: self.size
+        halign: 'left'
+        valign: 'middle'
+        padding: dp(10), dp(5)
+        color: 0,0,0,1
+    GridLayout:
+        id: grid
+        cols: 3
+        padding: dp(50)
+        spacing: dp(50)
+        pos: self.pos
+        size: self.size
 
 <MenuBar@BoxLayout>:
     orientation: 'horizontal'
@@ -89,24 +81,12 @@
         size_hint_x: 0.1
         on_release: app.stop()
 
-<SLSView>:
+<RootWidget>:
     orientation: 'vertical'
-    padding: dp(10)
-    spacing: dp(10)
-    view: view
     canvas.before:
         Color:
             rgba: 1,1,1,1
         Rectangle:
             size: self.size
     MenuBar:
-    RecycleView:
-        id: view
-        key_viewclass: 'widget'
-        RecycleBoxLayout:
-            default_size_hint: 1, None
-            size_hint_y: None
-            height: self.minimum_height
-            orientation: 'vertical'
-            padding: dp(10)
-            spacing: dp(50)
+    SLSView:
