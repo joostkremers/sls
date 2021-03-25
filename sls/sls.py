@@ -40,6 +40,11 @@ class SLSView(BoxLayout):
 
     """
 
+    @staticmethod
+    def prettify_path(path: str) -> str:
+        rel_path = os.path.relpath(path, os.path.expanduser("~"))
+        return rel_path.replace(os.path.sep, " › ")
+
     def __init__(self, **kwargs):
         super(SLSView, self).__init__(**kwargs)
 
@@ -74,7 +79,7 @@ class SLSView(BoxLayout):
 
         if files:
             section = SLSSection()
-            section.path = os.path.join(root, directory)
+            section.path = self.prettify_path(os.path.join(root, directory))
             for file in files:
                 thumbnail = self.folder.create_thumbnail(os.path.join(directory, file))
                 image = SLSImage(thumbnail)
@@ -85,7 +90,7 @@ class SLSView(BoxLayout):
         for subdir in subdirs:
             section = SLSSection()
             folder_path = os.path.join(root, directory, subdir)
-            section.path = folder_path
+            section.path = self.prettify_path(folder_path)
             image_path = self.folder.first_image(os.path.join(directory, subdir))
             folder = SLSFolder(image_path)
 
