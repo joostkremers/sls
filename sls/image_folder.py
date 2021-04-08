@@ -68,8 +68,8 @@ class ImageFolder:
 
         return result
 
-    @classmethod
-    def generate_dir_name(cls, path):
+    @staticmethod
+    def generate_dir_name(path):
         """Generate a unique directory name based on `path`.
 
         Return a directory name consisting of the base name of `path` followed
