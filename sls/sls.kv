@@ -33,8 +33,6 @@
     color: 0,0,0,1
 
 <SLSImage@Image>:
-    # size: self.texture_size
-    # pos: self.pos
     canvas.before:
         Color:
             rgba: 1,1,1,1
@@ -58,7 +56,6 @@
         source: root.images[2] or 'resources/missing_image.png'
 
 <SLSFolder@Image>:
-    padding: (dp(20),0,0,0)
     canvas.before:
         Color:
             rgba: 1,1,1,1
