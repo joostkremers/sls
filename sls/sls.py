@@ -42,11 +42,11 @@ class SLSView(BoxLayout):
         super(SLSView, self).__init__(**kwargs)
 
         self.folder = ImageFolder("~/src/Python/sls/Pictures")
-        # We pass "" as the `directory` argument of `add_section`, not '.',
+        # We pass "" as the `directory` argument of `add_folder`, not '.',
         # because the directory is combined with the names of its subdir using
         # `os.path.join`. With '.', this leads to paths like "./subdir", which
         # subsequently cannot be found in `self.folder.contents` when
-        # `add_section` creates sections for the subdir.
+        # `add_folder` creates sections for the subdir.
 
         # An empty `directory` argument also means that no title label is added,
         # which is fine, because we want to add a special one here:
