@@ -16,7 +16,7 @@ class SLSView(BoxLayout):
     """The main window of the program.
 
     The SLSView contains a MenuBar and a RecycleView that holds the actual
-    images..
+    images.
 
     Attributes
     ----------
