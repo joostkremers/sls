@@ -4,12 +4,24 @@ from typing import List
 from kivy.app import App
 
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.image import Image
 
 from kivy.properties import ObjectProperty
 
 from kivy.metrics import dp
 
 from sls.image_folder import ImageFolder
+
+
+class SLSImage(ButtonBehavior, Image):
+    def on_release(self):
+        print(f"Image clicked: {self.source}")
+
+
+class SLSFolder(ButtonBehavior, Image):
+    def on_release(self):
+        print(f"Folder clicked: {self.source}")
 
 
 class SLSView(BoxLayout):
