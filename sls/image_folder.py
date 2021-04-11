@@ -118,7 +118,7 @@ class ImageFolder:
         if files:
             return os.path.join(folder, files[0])
         else:
-            return "../Images/missing_image.png"
+            return "resources/missing_image.png"
 
     def create_thumbnail(self, image_path: str) -> str:
         """Create a thumbnail for `image` and return its file path.
@@ -156,7 +156,7 @@ class ImageFolder:
                 transposed_image.thumbnail((500, 500))
                 transposed_image.save(thumbnail_path)
         except OSError:
-            thumbnail_path = "../Images/missing_image.png"
+            thumbnail_path = "resources/missing_image.png"
 
         return thumbnail_path
 

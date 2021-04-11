@@ -39,7 +39,7 @@
         Color:
             rgba: 1,1,1,1
         BorderImage:
-            source: '../Images/shadow32.png'
+            source: 'resources/shadow32.png'
             border: (dp(36),dp(36),dp(36),dp(36))
             size: (self.width+dp(72), self.height+dp(72))
             pos: (self.x-dp(36), self.y-dp(36))
@@ -51,11 +51,11 @@
     padding: [dp(5),0]
     spacing: dp(50)
     SLSImage:
-        source: root.images[0] or '../Images/missing_image.png'
+        source: root.images[0] or 'resources/missing_image.png'
     SLSImage:
-        source: root.images[1] or '../Images/missing_image.png'
+        source: root.images[1] or 'resources/missing_image.png'
     SLSImage:
-        source: root.images[2] or '../Images/missing_image.png'
+        source: root.images[2] or 'resources/missing_image.png'
 
 <SLSFolder@Image>:
     padding: (dp(20),0,0,0)
@@ -64,7 +64,7 @@
             rgba: 1,1,1,1
         BorderImage:
             # https://openclipart.org/detail/276955/blank-blue-folder-without-solid-lines
-            source: '../Images/folder.png'
+            source: 'resources/folder.png'
             border: (dp(36),dp(36),dp(36),dp(36))
             size: (self.width+dp(72), self.height+dp(72))
             # Position the BorderImage slightly higher for better visual effect.
