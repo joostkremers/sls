@@ -25,7 +25,7 @@ class ImageFolder:
     ----------
     root : str
         File path of the image directory.
-    contents : Dict[str, str]
+    contents : Dict[str, ([str], [str])]
         Dictionary of directory paths to their contents.
     dirs: AppDirs
         App-specific directories
@@ -97,7 +97,7 @@ class ImageFolder:
     def first_image(self, folder: str):
         """Return the first image in the folder.
 
-        Take the first picture in folder and return its absolute file path. The
+        Take the first image in folder and return its absolute file path. The
         returned file is the first file listed for the folder in self.contents.
         If this folder does not contain any images, return the stock image
         'missing_image.png'.
