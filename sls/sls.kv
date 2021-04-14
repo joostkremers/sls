@@ -9,7 +9,7 @@
             size: self.size
             radius: [dp(5),0]
 
-<SLSFolderLabel@Label>:
+<SLSLabel>:
     canvas.before:
         Color:
             rgba: 0.92,0.92,0.92,1
@@ -17,6 +17,9 @@
             size: self.size
             pos: self.pos
             radius: [dp(5),0]
+    column: 0
+    row: 0
+    span: (3, 1)
     main: False
     font_size: '20sp' if self.main==True else '15sp'
     # Changing the height here doesn't work, for some reason:
@@ -42,7 +45,7 @@
             size: (self.width+dp(72), self.height+dp(72))
             pos: (self.x-dp(36), self.y-dp(36))
 
-<SLSFolder@>:
+<SLSFolder>:
     canvas.before:
         Color:
             rgba: 1,1,1,1
@@ -54,18 +57,11 @@
             # Position the BorderImage slightly higher for better visual effect.
             pos: (self.x-dp(36), self.y-dp(20))
 
-<SLSImageRowM@BoxLayout>:
-    height: dp(260)
-    orientation: 'horizontal'
-    images: ['','','']
+<SLSRow>:
+    columns: 3
+    rows: 1
     padding: [dp(5),0]
     spacing: dp(50)
-    SLSImage:
-        source: root.images[0] or 'resources/missing_image.png'
-    SLSImage:
-        source: root.images[1] or 'resources/missing_image.png'
-    SLSImage:
-        source: root.images[2] or 'resources/missing_image.png'
 
 <MenuBar@BoxLayout>:
     orientation: 'horizontal'
@@ -99,7 +95,7 @@
     MenuBar:
     RecycleView:
         id: view
-        key_viewclass: 'widget'
+        viewclass: 'SLSRow'
         RecycleBoxLayout:
             default_size_hint: 1, None
             size_hint_y: None
