@@ -58,10 +58,18 @@
             pos: (self.x-dp(36), self.y-dp(20))
 
 <SLSRow>:
+    name: ''
+    widget_list: []
+    canvas.before:
+        Color:
+            rgba: 0.5, 0.5, 0.5, 1
+        Rectangle:
+            size: self.size
+            pos: self.pos
     columns: 3
     rows: 1
-    padding: [dp(5),0]
-    spacing: dp(50)
+    # padding: [dp(2),0]
+    # spacing: dp(5)
 
 <MenuBar@BoxLayout>:
     orientation: 'horizontal'
