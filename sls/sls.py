@@ -130,7 +130,7 @@ class SLSView(BoxLayout):
 
     def create_image_row(self, images: List[str]):
         thumbnails = [self.folder.create_thumbnail(file) for file in images]
-        return {"widget": "SLSRow", "image_paths": thumbnails}
+        return {"widget": "SLSRow", "rows": 1, "columns": 3, "image_paths": thumbnails}
 
     def create_folder(self, path: str):
         image_path = self.folder.first_image(path)
