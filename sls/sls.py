@@ -12,9 +12,10 @@ from kivy.properties import ObjectProperty
 from kivy.metrics import dp
 
 from sls.image_folder import ImageFolder
+from sls.sparsegridlayout import SparseGridLayout, SparseGridEntry
 
 
-class SLSImage(ButtonBehavior, Image):
+class SLSImage(ButtonBehavior, SparseGridEntry, Image):
     def on_release(self):
         print(f"Image clicked: {self.source}")
 
