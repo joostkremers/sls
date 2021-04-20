@@ -7,7 +7,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, ListProperty
 
 from kivy.metrics import dp
 
@@ -23,6 +23,17 @@ class SLSImage(ButtonBehavior, SparseGridEntry, Image):
 class SLSFolder(ButtonBehavior, Image):
     def on_release(self):
         print(f"Folder clicked: {self.source}")
+
+
+class SLSRow(SparseGridLayout):
+    image_paths = ListProperty()
+
+    def on_image_paths(self, instance, value):
+        self.clear_widgets()
+        print(f"Images: {self.image_paths}")
+        for index, path in enumerate(self.image_paths):
+            image = SLSImage(row=0, column=index, source=path)
+            self.add_widget(image)
 
 
 class SLSView(BoxLayout):
@@ -119,7 +130,7 @@ class SLSView(BoxLayout):
 
     def create_image_row(self, images: List[str]):
         thumbnails = [self.folder.create_thumbnail(file) for file in images]
-        return {"widget": "SLSImageRowM", "images": thumbnails}
+        return {"widget": "SLSRow", "image_paths": thumbnails}
 
     def create_folder(self, path: str):
         image_path = self.folder.first_image(path)

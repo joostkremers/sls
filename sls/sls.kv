@@ -54,19 +54,6 @@
             # Position the BorderImage slightly higher for better visual effect.
             pos: (self.x-dp(36), self.y-dp(20))
 
-<SLSImageRowM@BoxLayout>:
-    height: dp(260)
-    orientation: 'horizontal'
-    images: ['','','']
-    padding: [dp(5),0]
-    spacing: dp(50)
-    SLSImage:
-        source: root.images[0] or 'resources/missing_image.png'
-    SLSImage:
-        source: root.images[1] or 'resources/missing_image.png'
-    SLSImage:
-        source: root.images[2] or 'resources/missing_image.png'
-
 <MenuBar@BoxLayout>:
     orientation: 'horizontal'
     size_hint_y: None
