@@ -40,7 +40,7 @@ class SparseGridLayout(FloatLayout):
         super(SparseGridLayout, self).do_layout(*args)
 
 
-class GridEntry(EventDispatcher):
+class SparseGridEntry(EventDispatcher):
     row = NumericProperty(0)
     column = NumericProperty(0)
     span_x = NumericProperty(1)
