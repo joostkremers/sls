@@ -25,7 +25,6 @@ class SLSImageRow(SparseGridLayout):
 
     def on_image_paths(self, instance, value):
         self.clear_widgets()
-        print(f"Images: {self.image_paths}")
         for index, path in enumerate(self.image_paths):
             image = SLSImage(row=0, column=index, source=path)
             self.add_widget(image)
@@ -41,7 +40,6 @@ class SLSFolderRow(SparseGridLayout):
 
     def on_image_path(self, instance, value):
         self.clear_widgets()
-        print(f"Folder: {self.image_path}")
         image = SLSFolder(row=0, column=0, source=self.image_path)
         self.add_widget(image)
 
