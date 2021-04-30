@@ -7,21 +7,41 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.image import Image
 
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, ListProperty, StringProperty
 
 from kivy.metrics import dp
 
 from sls.image_folder import ImageFolder
+from sls.sparsegridlayout import SparseGridLayout, SparseGridEntry
 
 
-class SLSImage(ButtonBehavior, Image):
+class SLSImage(ButtonBehavior, SparseGridEntry, Image):
     def on_release(self):
         print(f"Image clicked: {self.source}")
 
 
-class SLSFolder(ButtonBehavior, Image):
+class SLSImageRow(SparseGridLayout):
+    image_paths = ListProperty()
+
+    def on_image_paths(self, instance, value):
+        self.clear_widgets()
+        for index, path in enumerate(self.image_paths):
+            image = SLSImage(row=0, column=index, source=path)
+            self.add_widget(image)
+
+
+class SLSFolder(ButtonBehavior, SparseGridEntry, Image):
     def on_release(self):
         print(f"Folder clicked: {self.source}")
+
+
+class SLSFolderRow(SparseGridLayout):
+    image_path = StringProperty()
+
+    def on_image_path(self, instance, value):
+        self.clear_widgets()
+        image = SLSFolder(row=0, column=0, source=self.image_path)
+        self.add_widget(image)
 
 
 class SLSView(BoxLayout):
@@ -118,12 +138,22 @@ class SLSView(BoxLayout):
 
     def create_image_row(self, images: List[str]):
         thumbnails = [self.folder.create_thumbnail(file) for file in images]
-        return {"widget": "SLSImageRowM", "images": thumbnails}
+        return {
+            "widget": "SLSImageRow",
+            "columns": 3,
+            "rows": 1,
+            "image_paths": thumbnails,
+        }
 
     def create_folder(self, path: str):
         image_path = self.folder.first_image(path)
         thumbnail = self.folder.create_thumbnail(image_path)
-        return {"widget": "SLSFolder", "source": thumbnail}
+        return {
+            "widget": "SLSFolderRow",
+            "columns": 3,
+            "rows": 1,
+            "image_path": thumbnail,
+        }
 
 
 class SLSApp(App):

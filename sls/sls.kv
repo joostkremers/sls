@@ -38,34 +38,20 @@
             rgba: 1,1,1,1
         BorderImage:
             source: 'resources/shadow32.png'
-            border: (dp(36),dp(36),dp(36),dp(36))
-            size: (self.width+dp(72), self.height+dp(72))
-            pos: (self.x-dp(36), self.y-dp(36))
+            border: (dp(36),dp(12),dp(36),dp(12))
+            size: (self.width+dp(24), self.height+dp(72))
+            pos: (self.x-dp(12), self.y-dp(36))
 
 <SLSFolder>:
     canvas.before:
         Color:
             rgba: 1,1,1,1
         BorderImage:
-            # https://openclipart.org/detail/276955/blank-blue-folder-without-solid-lines
-            source: 'resources/folder.png'
-            border: (dp(36),dp(36),dp(36),dp(36))
-            size: (self.width+dp(72), self.height+dp(72))
+            source: 'resources/folder4.png'
+            border: (dp(12),dp(12),dp(12),dp(12))
+            size: (self.width+dp(24), self.height+dp(150))
             # Position the BorderImage slightly higher for better visual effect.
-            pos: (self.x-dp(36), self.y-dp(20))
-
-<SLSImageRowM@BoxLayout>:
-    height: dp(260)
-    orientation: 'horizontal'
-    images: ['','','']
-    padding: [dp(5),0]
-    spacing: dp(50)
-    SLSImage:
-        source: root.images[0] or 'resources/missing_image.png'
-    SLSImage:
-        source: root.images[1] or 'resources/missing_image.png'
-    SLSImage:
-        source: root.images[2] or 'resources/missing_image.png'
+            pos: (self.x-dp(12), self.y-dp(75))
 
 <MenuBar@BoxLayout>:
     orientation: 'horizontal'
@@ -105,5 +91,4 @@
             size_hint_y: None
             height: self.minimum_height
             orientation: 'vertical'
-            padding: dp(10)
             spacing: dp(50)
