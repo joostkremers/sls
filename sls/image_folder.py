@@ -153,7 +153,7 @@ class ImageFolder:
                 # Transpose the image, because `thumbnail()` doesn't retain
                 # exif-data and thus removes the "Orientation".
                 transposed_image = exif_transpose(image)
-                transposed_image.thumbnail((500, 500))
+                transposed_image.thumbnail((100, 100))
                 transposed_image.save(thumbnail_path)
         except OSError:
             thumbnail_path = "resources/missing_image.png"
