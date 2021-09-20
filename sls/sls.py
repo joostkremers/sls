@@ -111,6 +111,8 @@ class SLSView(BoxLayout):
 
         """
 
+        # As per the comment in __init__, `directory` can be empty, in which
+        # case no label needs to be created:
         if directory:
             self.view.data.append(self.create_label(directory))
 
