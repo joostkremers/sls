@@ -8,19 +8,11 @@ from kivy.properties import ObjectProperty
 from kivy.metrics import dp
 
 from sls.image_folder import ImageFolder
+from sls.utils import chunk, prettify_path
 
 
 class ImagePanel(RecycleView):
     folder: ImageFolder = ObjectProperty()
-
-    @staticmethod
-    def chunk(lst: List, chunk_size: int):
-        for i in range(0, len(lst), chunk_size):
-            yield lst[i : i + chunk_size]
-
-    @staticmethod
-    def prettify_path(path: str) -> str:
-        return path.replace(os.path.sep, " › ")
 
     def create_image_row(self, images: List[str], cols=3) -> dict:
         """Create a row of images.
@@ -81,7 +73,7 @@ class ImagePanel(RecycleView):
     def add_label(self, path: str, main: bool = False):
         label = {
             "widget": "SLSFolderLabel",
-            "text": self.prettify_path(path),
+            "text": prettify_path(path),
             "main": main,
         }
 
@@ -115,7 +107,7 @@ class ImagePanel(RecycleView):
             self.add_label(directory)
 
         if files:
-            rows = self.chunk(files, 3)
+            rows = chunk(files, 3)
             for row in rows:
                 self.data.append(
                     self.create_image_row(
