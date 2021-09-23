@@ -2,6 +2,8 @@ import os
 import hashlib
 import base64
 
+from typing import Dict, Tuple, List
+
 from appdirs import AppDirs
 from PIL import Image as PILImage
 from PIL.ImageOps import exif_transpose
@@ -19,28 +21,33 @@ class ImageFolder:
     itself is stored under the entry '.'.
 
     When an ImageFolder is instantiated, a thumbnail directory is created in the
-    user's cache dir if one does not already exists.
+    user's cache dir if one does not already exist.
 
     Attributes
     ----------
-    root : str
+    root
         File path of the image directory.
-    contents : Dict[str, ([str], [str])]
+    contents
         Dictionary of directory paths to their contents.
-    dirs: AppDirs
+    dirs
         App-specific directories
-    thumbnail_dir : str
+    thumbnail_dir
         File path of the thumbnail directory.
 
     """
 
+    root: str
+    contents: Dict[str, Tuple[List[str], List[str]]]
+    dirs: AppDirs
+    thumbnail_dir: str
+
     def __init__(self, root: str):
         """
-        Create a ImageFolder instance.
+        Create an ImageFolder instance.
 
         Parameters
         ----------
-        root : str
+        root
             File path of the image directory.
         """
 
@@ -69,7 +76,7 @@ class ImageFolder:
         return result
 
     @staticmethod
-    def generate_dir_name(path):
+    def generate_dir_name(path: str) -> str:
         """Generate a unique directory name based on `path`.
 
         Return a directory name consisting of the base name of `path` followed
@@ -79,13 +86,12 @@ class ImageFolder:
 
         Parameters
         ----------
-        path : str
+        path
             Path to generate a directory name for.
 
         Returns
         -------
-        str
-            Generated base name.
+        Generated base name.
 
         """
         d = os.path.basename(path)
@@ -94,7 +100,7 @@ class ImageFolder:
 
         return f"{d}-{b}"
 
-    def first_image(self, folder: str):
+    def first_image(self, folder: str) -> str:
         """Return the first image in the folder.
 
         Take the first image in folder and return its absolute file path. The
@@ -104,13 +110,12 @@ class ImageFolder:
 
         Parameters
         ----------
-        folder : str
+        folder
             Relative path of the folder, starting from `self.root`.
 
         Returns
         -------
-        str
-            Relative path of the image, starting from `self.root`.
+        Relative path of the image, starting from `self.root`.
 
         """
 
@@ -129,13 +134,12 @@ class ImageFolder:
 
         Parameters
         ----------
-        image_path : str
+        image_path
             Path of the image, relative to `self.root`.
 
         Returns
         -------
-        str
-            Absolute file path of the thumbnail.
+        Absolute file path of the thumbnail.
 
         """
         thumbnail_path = os.path.join(self.thumbnail_dir, image_path)
