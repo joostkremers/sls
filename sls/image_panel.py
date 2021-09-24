@@ -7,12 +7,12 @@ from kivy.properties import ObjectProperty
 
 from kivy.metrics import dp
 
-from sls.image_folder import ImageFolder
+from sls.image_library import ImageLibrary
 from sls.utils import chunk, prettify_path
 
 
 class ImagePanel(RecycleView):
-    folder: ImageFolder = ObjectProperty()
+    library: ImageLibrary = ObjectProperty()
 
     def create_image_row(self, images: List[str], cols=3) -> dict:
         """Create a row of images.
@@ -34,7 +34,7 @@ class ImagePanel(RecycleView):
 
         """
 
-        thumbnails = [self.folder.create_thumbnail(file) for file in images]
+        thumbnails = [self.library.create_thumbnail(file) for file in images]
         return {
             "widget": "SLSImageRow",
             "columns": cols,
@@ -61,8 +61,8 @@ class ImagePanel(RecycleView):
             Data representing the folder row.
 
         """
-        image_path = self.folder.first_image(path)
-        thumbnail = self.folder.create_thumbnail(image_path)
+        image_path = self.library.first_image(path)
+        thumbnail = self.library.create_thumbnail(image_path)
         return {
             "widget": "SLSFolderRow",
             "columns": 3,

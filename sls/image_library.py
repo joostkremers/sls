@@ -9,7 +9,7 @@ from PIL import Image as PILImage
 from PIL.ImageOps import exif_transpose
 
 
-class ImageFolder:
+class ImageLibrary:
     """A directory containing image files.
 
     The absolute directory path is stored in the root attribute. The contents of
@@ -20,7 +20,7 @@ class ImageFolder:
     keys are relative paths starting from `root`, which means that the root
     itself is stored under the entry '.'.
 
-    When an ImageFolder is instantiated, a thumbnail directory is created in the
+    When an ImageLibrary is instantiated, a thumbnail directory is created in the
     user's cache dir if one does not already exist.
 
     Attributes
@@ -43,7 +43,7 @@ class ImageFolder:
 
     def __init__(self, root: str):
         """
-        Create an ImageFolder instance.
+        Create an ImageLibrary instance.
 
         Parameters
         ----------
@@ -63,7 +63,7 @@ class ImageFolder:
         # Set thumbnail_dir attribute.
         self.thumbnail_dir = os.path.join(
             self.dirs.user_cache_dir,
-            ImageFolder.generate_dir_name(self.root),
+            ImageLibrary.generate_dir_name(self.root),
             "thumbnails",
         )
         os.makedirs(self.thumbnail_dir, exist_ok=True)
@@ -81,7 +81,7 @@ class ImageFolder:
 
         Return a directory name consisting of the base name of `path` followed
         by the first 8 characters of the base64-encoded sha256 hash of `path`.
-        This should ensure that if we create two ImageFolder objects with the
+        This should ensure that if we create two ImageLibrary objects with the
         same base name but different paths, they won't collide.
 
         Parameters
@@ -166,4 +166,4 @@ class ImageFolder:
 
 
 if __name__ == "__main__":
-    imgfldr = ImageFolder("~/src/Python/sls/Pictures")
+    imgfldr = ImageLibrary("~/src/Python/sls/Pictures")
