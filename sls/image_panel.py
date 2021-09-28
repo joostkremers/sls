@@ -1,14 +1,46 @@
 import os.path
 from typing import List
 
-from kivy.uix.recycleview import RecycleView
-
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, ListProperty, StringProperty
 
 from kivy.metrics import dp
 
+from kivy.uix.recycleview import RecycleView
+from kivy.uix.behaviors import ButtonBehavior
+from kivy.uix.image import Image
+
+from sls.sparsegridlayout import SparseGridLayout, SparseGridEntry
 from sls.image_library import ImageLibrary
 from sls.utils import chunk, prettify_path
+
+
+class SLSImage(ButtonBehavior, SparseGridEntry, Image):
+    def on_release(self):
+        print(f"Image clicked: {self.source}")
+
+
+class SLSImageRow(SparseGridLayout):
+    image_paths = ListProperty()
+
+    def on_image_paths(self, instance, value):
+        self.clear_widgets()
+        for index, path in enumerate(self.image_paths):
+            image = SLSImage(row=0, column=index, source=path)
+            self.add_widget(image)
+
+
+class SLSFolder(ButtonBehavior, SparseGridEntry, Image):
+    def on_release(self):
+        print(f"Folder clicked: {self.source}")
+
+
+class SLSFolderRow(SparseGridLayout):
+    image_path = StringProperty()
+
+    def on_image_path(self, instance, value):
+        self.clear_widgets()
+        image = SLSFolder(row=0, column=0, source=self.image_path)
+        self.add_widget(image)
 
 
 class ImagePanel(RecycleView):
