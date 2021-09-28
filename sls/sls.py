@@ -18,17 +18,20 @@ class SLSView(BoxLayout):
 
     Attributes
     ----------
+    library
+        The ImageLibrary instance holding the image data.
     view
         The RecycleView instance holding the images.
 
     """
 
+    library: ImageLibrary = ObjectProperty()
     view: ImagePanel = ObjectProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.view.library = ImageLibrary("~/src/Python/sls/Pictures")
+        self.library = ImageLibrary("~/src/Python/sls/Pictures")
 
         # We pass "" as the `directory` argument of `add_folder`, not '.',
         # because the directory is combined with the names of its subdirs using
@@ -39,9 +42,9 @@ class SLSView(BoxLayout):
         # An empty `directory` argument also means that no title label is added,
         # which is fine, because we want to add a special one here:
 
-        path = os.path.relpath(self.view.library.root, os.path.expanduser("~"))
+        path = os.path.relpath(self.library.root, os.path.expanduser("~"))
         self.view.add_label(path=path, main=True)
-        self.view.add_folder("", *self.view.library.contents["."])
+        self.view.add_folder("", *self.library.contents["."])
 
         # root.ids.app_title.text = self.folder.root
 
