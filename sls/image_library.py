@@ -182,6 +182,22 @@ class ImageLibrary:
         return os.path.join(self.root, rel_path, basename)
 
     def list_images(self, directory: str, first: Optional[str] = None) -> List[str]:
+        """Return the file names of all images in `directory`.
+
+        If `first` is given, it will be the first image in the list.
+
+        Parameters
+        ----------
+        directory
+            The directory for which the images should be listed.
+        first
+            The image that should be first in the list.
+
+        Returns
+        -------
+            The list of file names.
+
+        """
         images = self.contents[directory][1]
         if first:
             i = images.index(first)
