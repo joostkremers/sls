@@ -21,7 +21,7 @@ class SLSView(BoxLayout):
     library
         The ImageLibrary instance holding the image data.
     view
-        The RecycleView instance holding the images.
+        The ImagePanel instance displaying the images.
 
     """
 
