@@ -174,7 +174,6 @@ class ImageLibrary:
 
         Returns
         -------
-        str
             Absolute path of the image file.
         """
 
