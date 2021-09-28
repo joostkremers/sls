@@ -2,7 +2,7 @@ import os
 import hashlib
 import base64
 
-from typing import Dict, Tuple, List
+from typing import Dict, Optional, Tuple, List
 
 from appdirs import AppDirs
 from PIL import Image as PILImage
@@ -163,6 +163,31 @@ class ImageLibrary:
             thumbnail_path = "resources/missing_image.png"
 
         return thumbnail_path
+
+    def thumbnail_to_image(self, thumbnail_path: str) -> str:
+        """Return the path to the full image of a thumbnail.
+
+        Parameters
+        ----------
+        thumbnail_path
+            Absolute path of the thumbnail file.
+
+        Returns
+        -------
+        str
+            Absolute path of the image file.
+        """
+
+        path, basename = os.path.split(thumbnail_path)
+        rel_path = os.path.relpath(path, start=self.thumbnail_dir)
+        return os.path.join(self.root, rel_path, basename)
+
+    def list_images(self, directory: str, first: Optional[str] = None) -> List[str]:
+        images = self.contents[directory][1]
+        if first:
+            i = images.index(first)
+            images = images[i:] + images[:i]
+        return images
 
 
 if __name__ == "__main__":
