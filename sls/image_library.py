@@ -29,7 +29,7 @@ class ImageLibrary:
         File path of the image directory.
     contents
         Dictionary of directory paths to their contents.
-    dirs
+    app_dirs
         App-specific directories
     thumbnail_dir
         File path of the thumbnail directory.
@@ -58,11 +58,11 @@ class ImageLibrary:
             rel_dir = os.path.relpath(directory, self.root)
             self.contents[rel_dir] = (subdirs, files)
 
-        self.dirs = AppDirs("sls", "ten.eleven")
+        self.app_dirs = AppDirs("sls", "ten.eleven")
 
         # Set thumbnail_dir attribute.
         self.thumbnail_dir = os.path.join(
-            self.dirs.user_cache_dir,
+            self.app_dirs.user_cache_dir,
             ImageLibrary.generate_dir_name(self.root),
             "thumbnails",
         )
