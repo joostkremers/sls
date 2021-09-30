@@ -209,7 +209,7 @@ class ImageLibrary:
         Parameters
         ----------
         directory
-            The directory for which the images should be listed.
+            The relative directory for which the images should be listed.
         first
             The image that should be first in the list.
 
