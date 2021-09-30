@@ -42,6 +42,7 @@
             border: (dp(36),dp(12),dp(36),dp(12))
             size: (self.width+dp(24), self.height+dp(72))
             pos: (self.x-dp(12), self.y-dp(36))
+    on_release: app.root.show_carousel(self.source)
 
 <SLSFolder>:
     canvas.before:
@@ -72,6 +73,15 @@
         text: 'Quit'
         size_hint_x: 0.1
         on_release: app.stop()
+
+<ImageCarousel>:
+    size_hint: (0.9, 0.9)
+    background_color: (0, 0, 0, 0)
+    gallery: carousel
+    Carousel:
+        id: carousel
+        loop: True
+        direction: "right"
 
 <SLSView>:
     orientation: 'vertical'

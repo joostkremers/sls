@@ -8,6 +8,7 @@ from kivy.uix.boxlayout import BoxLayout
 
 from sls.image_library import ImageLibrary
 from sls.image_panel import ImagePanel
+from sls.image_carousel import ImageCarousel
 
 
 class SLSView(BoxLayout):
@@ -47,6 +48,26 @@ class SLSView(BoxLayout):
         self.view.add_folder("", *self.library.contents["."])
 
         # root.ids.app_title.text = self.folder.root
+
+    def show_carousel(self, thumbnail_path: str):
+        """Open the image carousel.
+
+        The image carousel is opened with the image corresponding to the
+        thumbnail as the first image. The other images in the directory
+        containing the thumbnail are part of the carousel.
+
+        Parameters
+        ----------
+        thumbnail_path
+            Path to the thumbnail for which the image should be shown.
+
+        """
+        img_dir = self.library.thumbnail_to_dir(thumbnail_path)
+        img_name = os.path.basename(thumbnail_path)
+        img_names = self.library.list_images(img_dir, first=img_name)
+        img_paths = [os.path.join(self.library.root, img_dir, img) for img in img_names]
+        carousel = ImageCarousel(img_paths)
+        carousel.open()
 
 
 class SLSApp(App):

@@ -15,8 +15,7 @@ from sls.utils import chunk, prettify_path
 
 
 class SLSImage(ButtonBehavior, SparseGridEntry, Image):
-    def on_release(self):
-        print(f"Image clicked: {self.source}")
+    pass
 
 
 class SLSImageRow(SparseGridLayout):
