@@ -164,12 +164,12 @@ class ImageLibrary:
 
         return thumbnail_path
 
-    def thumbnail_to_image(self, thumbnail_path: str) -> str:
+    def thumbnail_to_image(self, thumb: str) -> str:
         """Return the path to the full image of a thumbnail.
 
         Parameters
         ----------
-        thumbnail_path
+        thumb
             Absolute path of the thumbnail file.
 
         Returns
@@ -177,7 +177,7 @@ class ImageLibrary:
             Absolute path of the image file.
         """
 
-        path, basename = os.path.split(thumbnail_path)
+        path, basename = os.path.split(thumb)
         rel_path = os.path.relpath(path, start=self.thumbnail_dir)
         return os.path.join(self.root, rel_path, basename)
 
