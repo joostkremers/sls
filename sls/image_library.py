@@ -181,6 +181,26 @@ class ImageLibrary:
         rel_path = os.path.relpath(path, start=self.thumbnail_dir)
         return os.path.join(self.root, rel_path, basename)
 
+    def thumbnail_to_dir(self, thumb: str) -> str:
+        """Return the relative directory of a thumbnail.
+
+        The relative path of the thumbnail's directory is also the relative path
+        of the original image in the image library.
+
+        Parameters
+        ----------
+        thumb
+            Absolute path of the thumbnail file.
+
+        Returns
+        -------
+            Relative path of the directory containing the thumbnail.
+
+        """
+        path = os.path.dirname(thumb)
+        rel_path = os.path.relpath(path, start=self.thumbnail_dir)
+        return rel_path
+
     def list_images(self, directory: str, first: Optional[str] = None) -> List[str]:
         """Return the file names of all images in `directory`.
 
