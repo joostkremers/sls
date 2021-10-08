@@ -14,7 +14,10 @@ class CircularList:
     A circular list has a fixed size. Elements can be added to the end
     (`append`) or to the beginning (`prepend`) of the list. If the list has
     reached its maximum length, adding an element pushes out the element on the
-    opposite end of the list.
+    opposite end of the list. Note that prepending an element to the list is not
+    more costly than appending one, because in the underlying data structure,
+    both methods of adding an element to the list reduce to appending or
+    replacing an element.
 
     Attributes
     ==========
@@ -59,7 +62,7 @@ class CircularList:
         """Return the element at position `index`.
 
         The first element of the list is at index position 0. `index` can be any
-        integer, if it falls outside the range of the list, it is reduced using
+        integer. If it falls outside the range of the list, it is reduced using
         the modulo operation. Negative indices are allowed and count backwards
         from the end of the list.
 
@@ -72,7 +75,7 @@ class CircularList:
         return self._data[(index + self._start) % len(self._data)]
 
     def __str__(self):
-        """Return string representation"""
+        """Return a string representation of a CircularList."""
         return (
             f"{self._data[self._start :] + self._data[: self._start]!r}"
             + f" ({len(self._data)!r}"
@@ -80,13 +83,24 @@ class CircularList:
         )
 
     def __repr__(self):
+        """Return the canonical string representation of a CircularList."""
         return f"CircularList({self.size!r}, {self._data[self._start :] + self._data[: self._start]!r})"
 
     def __len__(self):
         return len(self._data)
 
     def append(self, value):
-        """Append an element"""
+        """Append an element to a CircularList.
+
+        The element is added to the end of the list. If the list has reached it
+        maximum size, the first element of the list is dropped.
+
+        Parameters
+        ----------
+        value
+            The value to add.
+
+        """
         if len(self._data) == self.size:
             self._data[self._start] = value
         else:
@@ -94,6 +108,17 @@ class CircularList:
         self._start = (self._start + 1) % self.size
 
     def prepend(self, value):
+        """Prepend an element to a CircularList.
+
+        The element is added to the beginning of the list. If the list has
+        reached it maximum size, the last element of the list is dropped.
+
+        Parameters
+        ----------
+        value
+            The value to add.
+
+        """
         if len(self._data) == self.size:
             self._data[self._start - 1] = value
             self._start = (self._start - 1) % self.size
